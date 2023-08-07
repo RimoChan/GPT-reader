@@ -1,0 +1,3 @@
+chardet>=3.0.4
+openai>=0.27.6
+rimo-storage>=1.3.1
