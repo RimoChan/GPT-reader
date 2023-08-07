@@ -13,7 +13,7 @@ def 问(s, a, temperature):
         {"role": "system", "content": s},
         {"role": "user", "content": a},
     ]
-    chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages, temperature=temperature, max_tokens=300)
+    chat = openai.ChatCompletion.create(model="gpt-3.5-turbo-16k", messages=messages, temperature=temperature, max_tokens=1200)
     return chat.choices[0].message.content
 
 
@@ -50,11 +50,11 @@ def 读(fname):
         data = [*f]
     别 = []
     for line in data:
-        if not 别 or len(别[-1]) + len(line) > 2000:
+        if not 别 or len(别[-1]) + len(line) > 8000:
             别.append(line)
         else:
             别[-1] += line
-    头 = '你是一个小说压缩器。用户每次会输入一段约2000字的小说，你需要将这段话缩写到200字以下。你应当忽略输入中的章节名和卷名等meta信息。你不能直接引用人物对话，而要进行总结。'
+    头 = '你是一个小说压缩器。用户每次会输入一段约8000字的小说，你需要将这段话缩写到800字以下。你应当忽略输入中的章节名和卷名等meta信息。你不能直接引用人物对话，而要进行总结。'
     过去的剧情 = []
     for i, a in enumerate(别):
         if i == 0:
@@ -62,7 +62,7 @@ def 读(fname):
         else:
             过去剧情的切片 = ''
             for j in 过去的剧情[::-1]:
-                if len(过去剧情的切片) + len(j) < 1200:
+                if len(过去剧情的切片) + len(j) < 4800:
                     过去剧情的切片 = '- ' + j + '\n' + 过去剧情的切片
                 else:
                     break
